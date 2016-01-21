@@ -1,0 +1,84 @@
+#include <iostream>
+#include <cmath>
+#include <cstdlib>
+#include <ctime>
+#include <vector>
+#include <fstream>
+
+//c++ program to calculate simple poisson eqn in xy coords
+
+int main()
+{
+  using namespace std;
+
+  ofstream outf("sys1.dat");
+
+ 
+ double v0 = 20.0; //value of +V
+ double rg=5.0; //radius of ground circle
+double rv=20.0; //radius of circle at voltage v0
+
+ double dx=1.0; //grid spacing
+ double dy=1.0; //grid spacing
+
+ double dt=0.1; //iteration step size
+ double tmax=10.0; //iteration stop point
+ int tstep = tmax/dt; //number of iterations
+
+ int xstep= 2*rv/dx;
+ int ystep = 2*rv/dy;
+
+ double u[xstep+2][ystep+2]; //multidimensional array
+ double unew[xstep+2][ystep+2];
+
+ //boundary conditions 
+
+ for (int j=0;j<(xstep+2);j++) {
+   for (int k=0; k<(ystep+2);k++){
+
+
+     /*  if ( ((j-ceil((xstep+2)/2))*(j-ceil((xstep+2)/2))) + ((k-ceil((xstep+2)/2))*(k-ceil((ystep+2)/2))) == (rv/dx) )
+	  {
+u[j][k]=v0;
+	  }
+
+	   if (k==ceil((xstep+2)/2)  &&  j==ceil((xstep+2)/2)){
+       u[j][k]=v0;
+	   }
+	else
+	  u[j][k]=0; */
+
+ 
+}
+  }
+
+ 
+ for (int n=0; n<tstep;n++){
+ for (int j=1; j<(xstep+1); j++){
+   for (int k=1;k<(ystep+1);k++){
+     
+     if ((pow((k-ceil((xstep+2)/2)),2) + pow((j-ceil((xstep+2)/2)),2))> pow(rg,2)) 
+       unew[j][k]=0;      
+     
+     else unew[j][k]=(0.25)*(u[j-1][k] + u[j+1][k] + u[j][k-1] + u[j][k+1]);
+
+	    }
+ } 
+
+for (int j=1; j<(xstep+1); j++){
+   for (int k=1;k<(ystep+1);k++){
+ u[j][k]=unew[j][k];
+ }
+ }
+ } 
+
+ //print values to data file
+  for ( int j = 0; j < xstep+2; j++ ) {
+   for ( int k = 0; k < ystep+2; k++ ) {
+    
+     outf<<j<<","<<k<<","<<u[j][k] <<endl;  
+   }
+   }
+
+    return 0;
+}
