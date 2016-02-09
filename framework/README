@@ -1,0 +1,10 @@
+The framework for the applicaton is now set up.
+
+The board is represented by a 2-dimensioanal vector of tuples containing doubles and booleans:
+ 
+  std::vector<std::vector<std::tuple<double,bool>>>;
+  
+TODO:
+- Write a function that initialises a board from a BitMap image
+- Write functions for faster algorithms than the Jacobi method.
+- Implement convergence detection
