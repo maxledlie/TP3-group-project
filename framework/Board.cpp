@@ -1,5 +1,4 @@
 #include "bitmap_image.hpp"
-#include "stringmanip.h"
 #include <tuple>
 #include <string>
 #include <iostream>
