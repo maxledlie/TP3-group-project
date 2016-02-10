@@ -17,7 +17,7 @@ The program recognises a pixel as RED   if its RGB colour value is 255 0   0
                                   
 You can easily set RGB to these values when selecting a new colour in Paint, and I assume in similar program too.
 
-I've provided sample .bmp files for each of the setups given in the lab book to save you some hassle of creating your own.
+I would provide sample .bmp files but I'm having some trouble figuring out how to upload images to GitHub. Hopefully should have some up soon.
 
 The rest of the program should be self-explanatory.
   
