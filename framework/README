@@ -4,7 +4,23 @@ The board is represented by a 2-dimensioanal vector of tuples containing doubles
  
   std::vector<std::vector<std::tuple<double,bool>>>;
   
+The function bmpInitialise(string bmp_file_name) initialises a board according to the "instructions" provided in a .bmp file.
+Each pixel in a .bmp file represents one cell in the board. If the pixel is...
+
+RED: +5V
+GREEN: 0V
+BLUE: -5V.
+
+The program recognises a pixel as RED   if its RGB colour value is 255 0   0
+                                  GREEN if its RGB colour value is 0   255 0
+                                  BLUE  if its RGB colour value is 0   0   255
+                                  
+You can easily set RGB to these values when selecting a new colour in Paint, and I assume in similar program too.
+
+I've provided sample .bmp files for each of the setups given in the lab book to save you some hassle of creating your own.
+
+The rest of the program should be self-explanatory.
+  
 TODO:
-- Write a function that initialises a board from a BitMap image
-- Write functions for faster algorithms than the Jacobi method.
+- Write functions for faster and more accurate algorithms than the Jacobi method.
 - Implement convergence detection
