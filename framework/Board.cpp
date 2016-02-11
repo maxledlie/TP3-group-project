@@ -15,6 +15,7 @@ public:
 
 	void bmpInitialise(string bmp_file_name);
 	void jacobiUpdate();
+	void gaussUpdate();
 	void writeBoard(string ofile_name);
 
 
@@ -126,14 +127,73 @@ void Board::jacobiUpdate() {
 				new_grid[i][j] = tuple<double, bool>((get<0>(grid[i][j - 1]) + get<0>(grid[i - 1][j]) + get<0>(grid[i + 1][j]) + get<0>(grid[i][j + 1])) / 4, false);
 		}
 	}
+}
 
-	// grid = new_grid
-	//copy(&new_grid[0][0], &new_grid[0][0] + grid_width*grid_height, &grid[0][0]);
-	for (int i = 0; i < grid_width; ++i) {
-		for (int j = 0; j < grid_height; ++j) {
-			grid[i][j] = new_grid[i][j];
-		}
+    void Board::gaussUpdate() {
+        
+        int grid_width = grid.size();
+        int grid_height = grid[0].size();
+        
+        // Make a copy of the grid
+        vector<vector<tuple<double, bool>>> new_grid = grid;
+        for (int i = 0; i < grid_width; ++i) {
+            for (int j = 0; j < grid_height; ++j) {
+                new_grid[i][j] = grid[i][j];
+            }
+        }
+        
+        // First update the corner pieces:
+        
+        if (get<1>(grid[0][0]) == false)				// Top-left
+            new_grid[0][0] = tuple<double, bool>(0.5*(get<0>(grid[0][1]) + get<0>(grid[1][0])), false);
+        	grid[0][0]=new_grid[0][0];
+
+        if (get<1>(grid[0][grid_height-1]) == false)	// Bottom-left
+            new_grid[0][grid_height-1] = tuple<double, bool>(0.5*(get<0>(grid[0][grid_height - 2]) + get<0>(grid[1][grid_height - 1])), false);
+		grid[0][grid_height-1]=new_grid[0][grid_height-1];
+        
+        if (get<1>(grid[grid_width - 1][0]) == false)		// Top-right
+            new_grid[grid_width - 1][0] = tuple<double, bool>(0.5*(get<0>(grid[grid_width - 2][0]) + get<0>(grid[grid_width - 1][1])), false);
+		grid[grid_width-1][0]=new_grid[grid_width-1][0];
+        
+        if (get<1>(grid[grid_width - 1][grid_height - 1]) == false)	// Bottom-right
+            new_grid[grid_width - 1][grid_height - 1] = tuple<double, bool>(0.5*(get<0>(grid[grid_width - 2][grid_height - 1]) + get<0>(grid[grid_width - 1][grid_height - 2])), false);
+		grid[grid_width-1][grid_height-1]=new_grid[grid_width-1][grid_height-1];        
+        
+        // Next, update the edge pieces:
+        // Top edge
+        for (int i = 1; i < grid_width - 1; ++i) {
+            if (get<1>(grid[i][0]) == false)
+                new_grid[i][0] = tuple<double, bool>((get<0>(grid[i - 1][0]) + get<0>(grid[i + 1][0]) + get<0>(grid[i][1])) / 3, false);
+        	grid[i][0]=new_grid[i][0];
 	}
+        // Bottom edge
+        for (int i = 1; i < grid_width - 1; ++i) {
+            if (get<1>(grid[i][grid_height - 1]) == false)
+                new_grid[i][grid_height - 1] = tuple<double, bool>((get<0>(grid[i - 1][grid_height - 1]) + get<0>(grid[i + 1][grid_height - 1]) + get<0>(grid[i][grid_height - 2])) / 3, false);
+        	grid[i][grid_height-1]=new_grid[i][grid_height-1];
+	}
+        // Left edge
+        for (int j = 1; j < grid_height - 1; ++j) {
+            if (get<1>(grid[0][j]) == false)
+                new_grid[0][j] = tuple<double, bool>((get<0>(grid[0][j - 1]) + get<0>(grid[0][j + 1]) + get<0>(grid[1][j])) / 3, false);
+        	grid[0][j]=new_grid[0][j];
+	}
+        // Right edge
+        for (int j = 1; j < grid_height - 1; ++j) {
+            if (get<1>(grid[grid_width - 1][j]) == false)
+                new_grid[grid_width - 1][j] = tuple<double, bool>((get<0>(grid[grid_width - 1][j - 1]) + get<0>(grid[grid_width - 1][j + 1]) + get<0>(grid[grid_width - 2][j])) / 3, false);
+        	grid[grid_width-1][j]=new_grid[grid_width-1][j];
+	}
+        
+        // Finally, update the interior cells
+        for (int i = 1; i < grid_width - 1; ++i) {
+            for (int j = 1; j < grid_height - 1; ++j) {
+                if (get<1>(grid[i][j]) == false)
+                    new_grid[i][j] = tuple<double, bool>((get<0>(grid[i][j - 1]) + get<0>(grid[i - 1][j]) + get<0>(grid[i + 1][j]) + get<0>(grid[i][j + 1])) / 4, false);
+		grid[i][j]=new_grid[i][j];
+            }
+        }
 }
 
 	

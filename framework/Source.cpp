@@ -30,7 +30,8 @@ int main()
 	cout << "Initialised the board" << endl; // Test
 
 	for (int i = 0; i < iterations; ++i)
-		board.jacobiUpdate();
+		//board.jacobiUpdate();
+        board.gaussUpdate();
 
 	board.writeBoard(out_file_name);
 	return 0;

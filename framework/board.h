@@ -11,6 +11,7 @@ public:
 
 	std::vector < std::vector<std::tuple<double, bool>> > grid;
 	void jacobiUpdate();
+	void gaussUpdate();
 	void writeBoard(std::string);
 	void bmpInitialise(std::string);
 };
