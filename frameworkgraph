@@ -2,11 +2,13 @@
 
 
 
-printf "Enter name of data file( sorry, I know I asked before): "
-read $DATA
+
 
 g++ -std=c++11 -o source Source.cpp Board.cpp
 ./source
+
+printf "Enter name of data file( sorry, I know I asked before): "
+read DATA
 
 printf "Choose graph view:\n1   Static view from top\n2   Dynamic view\n"
 
