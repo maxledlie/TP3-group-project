@@ -6,6 +6,7 @@
 #include <string>
 #include <tuple>
 #include <algorithm>
+#include <time.h>
 
 using namespace std;
 
@@ -31,6 +32,8 @@ int main(int argc, char *argv[])
 	string out_file_name = argv[2];
 	string simulation;
 	unsigned int max_iterations;
+	unsigned int iterations;
+
 
 	// Catch invalid inputs
 	cout << "Welcome to the E-Field Solver!" << endl << endl;
@@ -57,25 +60,47 @@ int main(int argc, char *argv[])
 	cin >> simulation;
 
 	if (simulation == "Jacobi" || simulation == "jacobi" || simulation == "J" || simulation == "j") {
-		for (int i = 0; i < max_iterations && board.converged() == false; ++i)
+		clock_t start_time = clock();
+		board.jacobiUpdate();
+		iterations = 1;
+		for (int i = 1; i < max_iterations && board.converged() == false; ++i) {
 			board.jacobiUpdate();
+			iterations++;
+		}
+		cout << double(clock() - start_time) / (double)CLOCKS_PER_SEC << "seconds." << endl;
 	}
 
 	else if (simulation == "Gauss" || simulation == "gauss" || simulation == "G" || simulation == "g") {
-		for (int i = 0; i < max_iterations && board.converged() == false; ++i)
+		clock_t start_time = clock();
+		board.gaussUpdate();
+		iterations = 1;
+		for (int i = 1; i < max_iterations && board.converged() == false; ++i) {
 			board.gaussUpdate();
+			iterations++;
+		}
+		cout << double(clock() - start_time) / (double)CLOCKS_PER_SEC << "seconds." << endl;
 	}
 
 	else if (simulation == "SOR" || simulation == "sor" || simulation == "S" || simulation == "s") {
-		for (int i = 0; i < max_iterations && board.converged() == false; ++i)
+		clock_t start_time = clock();
+		board.sorUpdate();
+		iterations = 1;
+		for (int i = 1; i < max_iterations && board.converged() == false; ++i) {
 			board.sorUpdate();
+			iterations++;
+		}
+		cout << double(clock() - start_time) / (double)CLOCKS_PER_SEC << " seconds." << endl;
 	}
 
 	else
 		cout << "Not a valid simulation method!" << endl;
 
+	cout << "The number of iterations was " << iterations << endl;
+
 	board.writeBoard(out_file_name);
 	return 0;
 }
+
+
 
 
