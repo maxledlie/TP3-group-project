@@ -10,7 +10,7 @@ public:
 
 	std::vector < std::vector<std::tuple<double, bool>> > grid;
 	std::vector<std::vector<std::tuple<double, bool>>> last_grid;
-	bool converged();
+	bool converged(double);
 	void jacobiUpdate();
 	void gaussUpdate();
 	void sorUpdate();
@@ -18,5 +18,3 @@ public:
 	void bmpInitialise(std::string);
 	
 };
-
-#endif

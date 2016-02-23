@@ -1,0 +1,108 @@
+#!/bin/bash
+
+
+printf "Enter name of 24-bit BMP input file: "
+read BMP
+
+printf "Enter name of text output file: "
+read DATA
+
+g++ -std=c++11 -o source Source.cpp Board.cpp
+./source $BMP $DATA
+
+
+printf "Choose graph view:\n1   Static view from top\n2   Dynamic view\n3   Electric Field Vector View\n"
+
+read VIEW
+
+case $VIEW in
+
+    1) #static topdown view
+
+gnuplot -persist <<EOF
+ set datafile separator " "
+ unset key
+ set view map
+set title "E Field - Top-down view"
+set xlabel "x (pixels)"
+set ylabel "y (pixels)"
+set zlabel "Voltage (Volts)"
+ xequiv = 1
+ yequiv=1
+ set size ratio -1
+ set title "E Field"
+ splot "$DATA" using 1:2:3 with points palette pointsize 3 pointtype 7
+
+EOF
+
+;;
+
+    2) #dynamic graph
+
+gnuplot -persist <<EOF
+ set datafile separator " "
+ unset key
+ set title "E Field - Dynamic View"
+set xlabel "x (pixels)"
+set ylabel "y (pixels)"
+set zlabel "Voltage (Volts)"
+ xequiv = 1
+ yequiv=1
+ set size ratio -1
+ splot "$DATA" using 1:2:3 with points palette pointsize 3 pointtype 7
+ pause mouse close
+EOF
+;;
+
+
+
+    3) #electric field graph
+
+printf "Enter length: "
+read LENGTH
+
+printf "Enter height: " 
+read HEIGHT
+
+printf " Enter increment (if half length is even number must be odd and vice versa: "
+read INCREMENT
+
+CNTR=$LENGTH/2
+
+gnuplot -persist <<EOF
+ set datafile separator " "
+set title "Electric Field with vectors"
+set view map 
+set xlabel "x (pixels)"
+set ylabel "y (pixels)"
+set zlabel "Voltage (Volts)"
+set contour base 
+set cntrparam levels increment -$CNTR, $INCREMENT, $CNTR
+unset surface
+set dgrid3d $LENGTH, $HEIGHT, 4 
+set table 'equipo$DATA.txt
+splot "$DATA" with l
+unset table
+plot "sysvector$DATA" with vectors,\
+'equipo$SYSTEM.txt' with l
+ pause mouse close
+EOF
+;;
+
+
+   *) #if other input, use dynamic graph (case 2)
+gnuplot -persist <<EOF
+ set datafile separator " "
+ unset key
+set xlabel "x (pixels)"
+set ylabel "y (pixels)"
+set zlabel "Voltage (Volts)"
+ set title "Dynamic View"
+ xequiv = 1
+ yequiv=1
+ splot "$DATA" using 1:2:3 with points palette pointsize 3 pointtype 7
+ pause mouse close
+EOF
+
+;;
+esac

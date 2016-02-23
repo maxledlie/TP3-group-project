@@ -33,6 +33,7 @@ int main(int argc, char *argv[])
 	string simulation;
 	unsigned int max_iterations;
 	unsigned int iterations;
+	double precision;
 
 
 	// Catch invalid inputs
@@ -46,7 +47,10 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
-	cout << "Enter the maximum number of iterations to use: " << endl;
+	cout << "Enter the precision required: " << endl;
+	cin >> precision;
+
+	cout << "Enter the maximum number of iterations: " << endl;
 	cin >> max_iterations;
 
 	// Create a new board initialised according to the provided .bmp file
@@ -63,29 +67,29 @@ int main(int argc, char *argv[])
 		clock_t start_time = clock();
 		board.jacobiUpdate();
 		iterations = 1;
-		for (int i = 1; i < max_iterations && board.converged() == false; ++i) {
+		for (int i = 1; i < max_iterations && board.converged(precision) == false; ++i) {
 			board.jacobiUpdate();
 			iterations++;
 		}
-		cout << double(clock() - start_time) / (double)CLOCKS_PER_SEC << "seconds." << endl;
+		cout << double(clock() - start_time) / (double)CLOCKS_PER_SEC << " seconds." << endl;
 	}
 
 	else if (simulation == "Gauss" || simulation == "gauss" || simulation == "G" || simulation == "g") {
 		clock_t start_time = clock();
 		board.gaussUpdate();
 		iterations = 1;
-		for (int i = 1; i < max_iterations && board.converged() == false; ++i) {
+		for (int i = 1; i < max_iterations && board.converged(precision) == false; ++i) {
 			board.gaussUpdate();
 			iterations++;
 		}
-		cout << double(clock() - start_time) / (double)CLOCKS_PER_SEC << "seconds." << endl;
+		cout << double(clock() - start_time) / (double)CLOCKS_PER_SEC << " seconds." << endl;
 	}
 
 	else if (simulation == "SOR" || simulation == "sor" || simulation == "S" || simulation == "s") {
 		clock_t start_time = clock();
 		board.sorUpdate();
 		iterations = 1;
-		for (int i = 1; i < max_iterations && board.converged() == false; ++i) {
+		for (int i = 1; i < max_iterations && board.converged(precision) == false; ++i) {
 			board.sorUpdate();
 			iterations++;
 		}

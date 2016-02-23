@@ -15,7 +15,7 @@ public:
 	vector<vector<tuple<double, bool>>> new_grid;
 
 	void bmpInitialise(string bmp_file_name);
-	bool converged();
+	bool converged(double precision);
 	void jacobiUpdate();
 	void gaussUpdate();
 	void sorUpdate();
@@ -72,9 +72,9 @@ void Board::bmpInitialise(string bmp_file_name) {
 
 
 // Check if the simulation has converged - that is, if 'new_grid' is sufficiently similar to 'grid' ***************************************************
-bool Board::converged() {
+bool Board::converged(double precision) {
 
-	double precision = 0.01;
+       
 	int grid_width = new_grid.size();
 	int grid_height = new_grid[0].size();
 	int errorcount = 0;
