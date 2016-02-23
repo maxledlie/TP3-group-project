@@ -1,16 +1,20 @@
-#ifndef GUARD_board_h
 #define GUARD_board_h
 
 #include <string>
+#include <vector>
 
 // board.h
 class Board
 {
 public:
-	Board(void);
-	void jacobiUpdate();
-	void writeBoard(std::string);
-	void textInitialise(std::string);
-};
 
-#endif
+	std::vector < std::vector<std::tuple<double, bool>> > grid;
+	std::vector<std::vector<std::tuple<double, bool>>> last_grid;
+	bool converged(double);
+	void jacobiUpdate();
+	void gaussUpdate();
+	void sorUpdate();
+	void writeBoard(std::string);
+	void bmpInitialise(std::string);
+	
+};
