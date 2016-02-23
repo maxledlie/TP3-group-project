@@ -1,0 +1,45 @@
+\documentclass{article}
+
+\begin{document}
+
+% topmatter
+
+\title{Numerical Solutions to Electrostatic Field Theory}
+\author{2081052, ENTER YOUR STUDENT NUMBERS HERE\\
+	University of Glasgow,\\
+	Glasgow,\\
+	United Kingdom,\\
+	G12 8QQ\\
+	\date{\today}
+	\maketitle
+	
+% abstract
+\begin{abstract}
+
+\end{abstract}
+
+\section{Introduction}
+
+\section{Analytical solutions}
+
+\section{Explanation of numerical methods}
+
+\section{Structure of generic solver}
+
+\section{Results for some useful arrangements}
+
+\section{Relative performances of different numerical methods}
+
+\section{Conclusions}
+
+\bibliographystle{plain}
+\bibliography{reportrefs}
+
+\appendix
+\section{C++ Code}
+
+\begin{verbatim}
+INSERT C++ CODE HERE
+\end{verbatim}
+
+\end{document}
