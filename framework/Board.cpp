@@ -46,6 +46,7 @@ void Board::bmpInitialise(string bmp_file_name) {
 	int grid_height = image.height();
 
 	for (int i = 0; i < grid_width; ++i) {
+<<<<<<< HEAD
 		new_grid.push_back(vector<tuple<double, bool>>());
 	}
 	for (int i = 0; i < grid_width; ++i) {
@@ -68,8 +69,29 @@ void Board::bmpInitialise(string bmp_file_name) {
 
 	return;
 }
+=======
+		grid.push_back(vector<tuple<double, bool>>());
+	}
+	for (int i = 0; i < grid_width; ++i) {
+		for (int j = 0; j < grid_height; ++j) {
+			grid[i].push_back(make_tuple(0, false));
+		}
+	}
+>>>>>>> 753597eeec437f928150bc60f1d5be268dbac2e0
 
+	for (int x = 0; x < grid_width; ++x) {
+		for (int y = 0; y < grid_height; ++y) {
+			image.get_pixel(x, y, red, green, blue);
+			if (red == 255 && green == 0 && blue == 0)
+				grid[x][y] = make_tuple(5, true);
+			else if (red == 0 && green == 255 && blue == 0)
+				grid[x][y] = make_tuple(0, true);
+			else if (red == 0 && green == 0 && blue == 255)
+				grid[x][y] = make_tuple(-5, true);
+		}
+	}
 
+<<<<<<< HEAD
 
 // Check if the simulation has converged - that is, if 'new_grid' is sufficiently similar to 'grid' ***************************************************
 bool Board::converged() {
@@ -87,9 +109,42 @@ bool Board::converged() {
 			{
 				errorcount += 1; //adds point to total points that meet precision threshold
 			}
+=======
+	new_grid = grid;
+
+	return;
+}
+
+
+
+// TODO Check if the simulation has converged - that is, if 'new_grid' is sufficiently similar to 'grid' ***************************************************
+bool Board::converged() {
+
+  double precision = 0.01;
+int grid_width = grid.size();
+  int grid_height = grid[0].size();
+	int errorcount =0;
+	double error =0;
+
+	for (int i = 0; i <= grid_width; ++i)	  {
+		for (int j = 0; j <= grid_height; ++j) {
+		  error = abs( get<0>(grid[i][j]) - get<0>(new_grid[i][j]) );
+		  if (error <= precision)
+		    {
+		      errorcount+=1; //adds point to total points that meet precision threshold
+		    }
+		  grid[i][j] = new_grid[i][j]; // new grid becomes old grid for next iteration, this needs to be done after precision check
+	  }
+>>>>>>> 753597eeec437f928150bc60f1d5be268dbac2e0
 		}
+
+	bool repeat = true;
+	//if all points are precise enough, then do not repeat
+        if (errorcount == grid_width*grid_height){
+	  repeat= false;
 	}
 
+<<<<<<< HEAD
 	bool converged = false;
 	//if all points are precise enough, then do not repeat
 	if (errorcount == grid_width*grid_height){
@@ -98,7 +153,12 @@ bool Board::converged() {
 
 	return converged;
 
+=======
+	return repeat;
+	
+>>>>>>> 753597eeec437f928150bc60f1d5be268dbac2e0
 }
+
 
 
 // Performs one iteration of the Jacobi method of relaxation. SLOW! ***************************************************************************************
@@ -107,8 +167,13 @@ void Board::jacobiUpdate() {
 
 	grid = new_grid;
 
+<<<<<<< HEAD
 	int grid_width = new_grid.size();
 	int grid_height = new_grid[0].size();
+=======
+	int grid_width = grid.size();
+	int grid_height = grid[0].size();
+>>>>>>> 753597eeec437f928150bc60f1d5be268dbac2e0
 
 		
 	// First update the corner pieces:
@@ -162,8 +227,13 @@ void Board::jacobiUpdate() {
 // Author: Max S. Modified to work with converged().
 void Board::gaussUpdate() {
 
+<<<<<<< HEAD
 	int grid_width = new_grid.size();
 	int grid_height = new_grid[0].size();
+=======
+	int grid_width = grid.size();
+	int grid_height = grid[0].size();
+>>>>>>> 753597eeec437f928150bc60f1d5be268dbac2e0
 
 	grid = new_grid;
 
@@ -218,8 +288,13 @@ void Board::gaussUpdate() {
 // Author: Wenbo. Modified to work with converged().
 void Board::sorUpdate() {
 
+<<<<<<< HEAD
 	int grid_width = new_grid.size();
 	int grid_height = new_grid[0].size();
+=======
+	int grid_width = grid.size();
+	int grid_height = grid[0].size();
+>>>>>>> 753597eeec437f928150bc60f1d5be268dbac2e0
 	double omega = 2 / (1 + 3.14159 / grid_width);
 
 	grid = new_grid;
@@ -274,8 +349,13 @@ void Board::sorUpdate() {
 // Writes the current grid to a given output file so it can be plotted *************************************************************************************
 void Board::writeBoard(string ofilename) {
 
+<<<<<<< HEAD
 	int grid_width = new_grid.size();
 	int grid_height = new_grid[0].size();
+=======
+	int grid_width = grid.size();
+	int grid_height = grid[0].size();
+>>>>>>> 753597eeec437f928150bc60f1d5be268dbac2e0
  	ofstream ofile;
 	cout << "Writing output to " << ofilename << endl;
 	ofile.open(ofilename);
