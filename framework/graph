@@ -1,28 +1,22 @@
 #!/bin/bash
 
 
-<<<<<<< HEAD
-printf "Enter name of 24-bit BMP input file: "
-read BMP
-
-printf "Enter name of text output file: "
-=======
 printf "Enter name of 24-bit BMP file: "
 read BMP
 
 printf "Enter name of data file: "
->>>>>>> master
+
 read DATA
 
 g++ -std=c++11 -o source Source.cpp Board.cpp
 ./source $BMP $DATA
 
 
-<<<<<<< HEAD
+
 printf "Choose graph view:\n1   Static view from top\n2   Dynamic view\n3   Electric Field Vector View\n"
-=======
+
 printf "Choose graph view:\n1   Static view from top\n2   Dynamic view\n"
->>>>>>> master
+
 
 read VIEW
 
@@ -34,13 +28,13 @@ gnuplot -persist <<EOF
  set datafile separator " "
  unset key
  set view map
-<<<<<<< HEAD
+
 set title "E Field - Top-down view"
 set xlabel "x (pixels)"
 set ylabel "y (pixels)"
 set zlabel "Voltage (Volts)"
-=======
->>>>>>> master
+
+
  xequiv = 1
  yequiv=1
  set size ratio -1
@@ -56,14 +50,14 @@ EOF
 gnuplot -persist <<EOF
  set datafile separator " "
  unset key
-<<<<<<< HEAD
+
  set title "E Field - Dynamic View"
 set xlabel "x (pixels)"
 set ylabel "y (pixels)"
 set zlabel "Voltage (Volts)"
-=======
+
  set title "E Field"
->>>>>>> master
+
  xequiv = 1
  yequiv=1
  set size ratio -1
@@ -89,31 +83,31 @@ CNTR=$LENGTH/2
 
 gnuplot -persist <<EOF
  set datafile separator " "
-<<<<<<< HEAD
+
 set title "Electric Field with vectors"
 set view map 
 set xlabel "x (pixels)"
 set ylabel "y (pixels)"
 set zlabel "Voltage (Volts)"
-=======
+
 set title "System $SYSTEM"
 set view map 
->>>>>>> master
+
 set contour base 
 set cntrparam levels increment -$CNTR, $INCREMENT, $CNTR
 unset surface
 set dgrid3d $LENGTH, $HEIGHT, 4 
-<<<<<<< HEAD
+
 set table 'equipo$DATA.txt
 splot "$DATA" with l
 unset table
 plot "sysvector$DATA" with vectors,\
-=======
+
 set table 'equipo$SYSTEM.txt
 splot "sys$SYSTEM.dat" with l
 unset table
 plot "sysvector$SYSTEM.dat" with vectors,\
->>>>>>> master
+
 'equipo$SYSTEM.txt' with l
  pause mouse close
 EOF
@@ -124,14 +118,14 @@ EOF
 gnuplot -persist <<EOF
  set datafile separator " "
  unset key
-<<<<<<< HEAD
+
 set xlabel "x (pixels)"
 set ylabel "y (pixels)"
 set zlabel "Voltage (Volts)"
  set title "Dynamic View"
-=======
+
  set title "E Field"
->>>>>>> master
+
  xequiv = 1
  yequiv=1
  splot "$DATA" using 1:2:3 with points palette pointsize 3 pointtype 7
