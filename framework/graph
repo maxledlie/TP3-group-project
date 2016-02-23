@@ -15,7 +15,6 @@ g++ -std=c++11 -o source Source.cpp Board.cpp
 
 printf "Choose graph view:\n1   Static view from top\n2   Dynamic view\n3   Electric Field Vector View\n"
 
-printf "Choose graph view:\n1   Static view from top\n2   Dynamic view\n"
 
 
 read VIEW
