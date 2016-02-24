@@ -14,7 +14,7 @@ public:
 	void jacobiUpdate();
 	void gaussUpdate();
 	void sorUpdate();
-	void writeBoard(std::string);
+	void writeBoard(std::string, std::string);
 	void bmpInitialise(std::string);
 	
 };
