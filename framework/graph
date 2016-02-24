@@ -8,8 +8,11 @@ printf "Enter name of data file: "
 
 read DATA
 
+printf "Enter name of data file for vectors:  "
+read VECTOR
+
 g++ -std=c++11 -o source Source.cpp Board.cpp
-./source $BMP $DATA
+./source $BMP $DATA $VECTOR
 
 
 
@@ -27,19 +30,15 @@ gnuplot -persist <<EOF
  set datafile separator " "
  unset key
  set view map
-
 set title "E Field - Top-down view"
 set xlabel "x (pixels)"
 set ylabel "y (pixels)"
 set zlabel "Voltage (Volts)"
-
-
  xequiv = 1
  yequiv=1
  set size ratio -1
  set title "E Field"
  splot "$DATA" using 1:2:3 with points palette pointsize 3 pointtype 7
-
 EOF
 
 ;;
@@ -49,14 +48,11 @@ EOF
 gnuplot -persist <<EOF
  set datafile separator " "
  unset key
-
  set title "E Field - Dynamic View"
 set xlabel "x (pixels)"
 set ylabel "y (pixels)"
 set zlabel "Voltage (Volts)"
-
  set title "E Field"
-
  xequiv = 1
  yequiv=1
  set size ratio -1
@@ -82,32 +78,19 @@ CNTR=$LENGTH/2
 
 gnuplot -persist <<EOF
  set datafile separator " "
-
 set title "Electric Field with vectors"
 set view map 
 set xlabel "x (pixels)"
-set ylabel "y (pixels)"
-set zlabel "Voltage (Volts)"
-
-set title "System $SYSTEM"
-set view map 
-
+set ylabel "y (pixels)" 
 set contour base 
 set cntrparam levels increment -$CNTR, $INCREMENT, $CNTR
 unset surface
 set dgrid3d $LENGTH, $HEIGHT, 4 
-
-set table 'equipo$DATA.txt
+set table 'equipo$DATA'
 splot "$DATA" with l
 unset table
-plot "sysvector$DATA" with vectors,\
-
-set table 'equipo$SYSTEM.txt
-splot "sys$SYSTEM.dat" with l
-unset table
-plot "sysvector$SYSTEM.dat" with vectors,\
-
-'equipo$SYSTEM.txt' with l
+plot "$VECTOR" with vectors,\
+'equipo$DATA' with l
  pause mouse close
 EOF
 ;;
@@ -117,14 +100,11 @@ EOF
 gnuplot -persist <<EOF
  set datafile separator " "
  unset key
-
 set xlabel "x (pixels)"
 set ylabel "y (pixels)"
 set zlabel "Voltage (Volts)"
  set title "Dynamic View"
-
  set title "E Field"
-
  xequiv = 1
  yequiv=1
  splot "$DATA" using 1:2:3 with points palette pointsize 3 pointtype 7
