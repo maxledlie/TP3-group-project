@@ -19,7 +19,7 @@ public:
 	void jacobiUpdate();
 	void gaussUpdate();
 	void sorUpdate();
-	void writeBoard(string ofile_name);
+  void writeBoard(string ofile_name, string vfilename);
 
 
 
@@ -272,7 +272,7 @@ void Board::sorUpdate() {
 
 	
 // Writes the current grid to a given output file so it can be plotted *************************************************************************************
-void Board::writeBoard(string ofilename) {
+void Board::writeBoard(string ofilename, string vfilename) {
 
 	int grid_width = new_grid.size();
 	int grid_height = new_grid[0].size();
@@ -286,6 +286,19 @@ void Board::writeBoard(string ofilename) {
 		ofile << endl;
 	}
 	ofile.close();
-
+	
+	ofstream vfile;
+	  cout << "Writing vector file to " << vfilename <<endl;
+	vfile.open(vfilename);
+	for (int i = 1; i < grid_width-1; ++i) {
+		for (int j = 1; j < grid_height-1; ++j) {
+		  vfile << i << " " << j << " " << ((get<0>(new_grid[i-1][j])-get<0>(new_grid[i+1][j]))/(2))<< " " << ((get<0>(new_grid[i][j-1])-get<0>(new_grid[i][j+1]))/(2)) << endl;
+		}
+		vfile << endl;
+	}
+	vfile.close();
+	
 	return;
 }
+
+	
