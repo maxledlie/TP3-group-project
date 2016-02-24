@@ -30,6 +30,7 @@ int main(int argc, char *argv[])
 {
 	string bmp_file_name = argv[1];
 	string out_file_name = argv[2];
+	string vector_file_name = argv[3];
 	string simulation;
 	unsigned int max_iterations;
 	unsigned int iterations;
@@ -43,6 +44,10 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 	if (file_extension(out_file_name).compare("txt") != 0) {
+		cout << "The output file must be a .txt file!" << endl;
+		return 1;
+	}
+	if (file_extension(vector_file_name).compare("txt") != 0) {
 		cout << "The output file must be a .txt file!" << endl;
 		return 1;
 	}
@@ -101,10 +106,6 @@ int main(int argc, char *argv[])
 
 	cout << "The number of iterations was " << iterations << endl;
 
-	board.writeBoard(out_file_name);
+	board.writeBoard(out_file_name, vector_file_name);
 	return 0;
 }
-
-
-
-
