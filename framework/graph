@@ -1,25 +1,23 @@
 #!/bin/bash
 
 
-
+#user inputs file names
 printf "Enter name of 24-bit BMP input file: "
 read BMP
 
 printf "Enter name of text output file: "
-
-
 read DATA
 
+#compile and run c++ program
 g++ -std=c++11 -o source Source.cpp Board.cpp
 ./source $BMP $DATA
 
 
-
+#user chooses method to view graph
 printf "Choose graph view:\n1   Static view from top\n2   Dynamic view\n3   Electric Field Vector View\n"
-
-
 read VIEW
 
+#switch cases, for all graph view types
 case $VIEW in
 
     1) #static topdown view
