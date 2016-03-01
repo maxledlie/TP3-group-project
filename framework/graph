@@ -30,12 +30,10 @@ set title "E Field - Top-down view"
 set xlabel "x (pixels)"
 set ylabel "y (pixels)"
 set zlabel "Voltage (Volts)"
-
  xequiv = 1
  yequiv=1
  set size ratio -1
  splot "$DATA" using 1:2:3 with points palette pointsize 3 pointtype 7
-
 EOF
 
 ;;
@@ -45,13 +43,10 @@ EOF
 gnuplot -persist <<EOF
  set datafile separator " "
  unset key
-
  set title "E Field - Dynamic View"
 set xlabel "x (pixels)"
 set ylabel "y (pixels)"
 set zlabel "Voltage (Volts)"
-
-
  xequiv = 1
  yequiv=1
  set size ratio -1
@@ -74,6 +69,7 @@ LENGTH="$(awk '{print $9;}' imagedetails.txt)"
 HEIGHT="$(awk '{print $7;}' imagedetails.txt)"
 CNTR=$LENGTH/2
 
+#checks if CNTR is even or odd
 if [ $((CNTR%2)) -eq 0 ];
 then
     INCREMENT=1;
@@ -88,24 +84,21 @@ fi
 
 gnuplot -persist <<EOF
  set datafile separator " "
-
 set title "Electric Field with vectors"
 set view map 
+unset key
 set xlabel "x (pixels)"
 set ylabel "y (pixels)"
 set zlabel "Voltage (Volts)"
-
-
 set contour base 
 set cntrparam levels increment -$CNTR, $INCREMENT, $CNTR
 unset surface
 set dgrid3d $LENGTH, $HEIGHT, 4 
-
 set table 'equipo.txt'
 splot "$DATA" with l
 unset table
 plot "sysvector" with vectors,\
-'equipo$SYSTEM.txt' with l
+'equipo.txt' with l
  pause mouse close
 EOF
 ;;
@@ -115,14 +108,11 @@ EOF
 gnuplot -persist <<EOF
  set datafile separator " "
  unset key
-
 set xlabel "x (pixels)"
 set ylabel "y (pixels)"
 set zlabel "Voltage (Volts)"
  set title "Dynamic View"
-
  set title "E Field"
-
  xequiv = 1
  yequiv=1
  splot "$DATA" using 1:2:3 with points palette pointsize 3 pointtype 7
@@ -131,4 +121,3 @@ EOF
 
 ;;
 esac
-
