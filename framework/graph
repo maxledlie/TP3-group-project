@@ -34,7 +34,6 @@ set zlabel "Voltage (Volts)"
  xequiv = 1
  yequiv=1
  set size ratio -1
- set title "E Field"
  splot "$DATA" using 1:2:3 with points palette pointsize 3 pointtype 7
 
 EOF
@@ -52,7 +51,7 @@ set xlabel "x (pixels)"
 set ylabel "y (pixels)"
 set zlabel "Voltage (Volts)"
 
- set title "E Field"
+
  xequiv = 1
  yequiv=1
  set size ratio -1
@@ -67,18 +66,25 @@ EOF
 
 
 
+#gets file details for bmp image (importantly, the dimensions)
+file $BMP > imagedetails.txt
 
-file $BMP > file.txt
-
-LENGTH="$(awk '{print $9;}' file.txt)"
-HEIGHT="$(awk '{print $7;}' file.txt)"
-
-
-
-printf " Enter increment (if half length is even number must be odd and vice versa: "
-read INCREMENT
-
+#retrieves length and height of image
+LENGTH="$(awk '{print $9;}' imagedetails.txt)"
+HEIGHT="$(awk '{print $7;}' imagedetails.txt)"
 CNTR=$LENGTH/2
+
+if [ $((CNTR%2)) -eq 0 ];
+then
+    INCREMENT=1;
+else
+    INCREMENT=2;
+fi
+
+#printf " Enter increment (if half length is even number must be odd and vice versa: "
+#read INCREMENT
+
+
 
 gnuplot -persist <<EOF
  set datafile separator " "
@@ -95,16 +101,10 @@ set cntrparam levels increment -$CNTR, $INCREMENT, $CNTR
 unset surface
 set dgrid3d $LENGTH, $HEIGHT, 4 
 
-set table 'equipo$DATA.txt
+set table 'equipo.txt'
 splot "$DATA" with l
 unset table
-plot "sysvector$DATA" with vectors,\
-
-set table 'equipo$SYSTEM.txt
-splot "sys$SYSTEM.dat" with l
-unset table
-plot "sysvector$SYSTEM.dat" with vectors,\
-
+plot "sysvector" with vectors,\
 'equipo$SYSTEM.txt' with l
  pause mouse close
 EOF
