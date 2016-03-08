@@ -1,1 +1,17 @@
+%ADD TO SUBSECTION ON CONVERGENCE
+This is done by looping over every point in the grid and taking the absolute difference between the old and new grid. If this difference is smaller than a user provided value for precision then it is added to a count. After the loop has finished, if the count is equal to the number of points in the grid then every point is considered precise enough. The simulation then stops. If the count does not include every point then \texttt{new\_grid} becomes  \texttt{grid} , the count is reset and the board undergoes another iteration.
 
+%ADD TO INTRODUCTION
+Laplace’s Equation also has many other applications in Physics. It can be used to model the behaviour of gravitational potential and the heat equation.
+
+%ADD TO SUBSECTION ‘PROGRAM STRUCTURE’
+The bash script mostly deals with two aspects of the program. It takes user input for the names of the BMP files and the text output files. It then uses these to compile and run the C++ code. After the C++ code has run and output the text files, the bash script displays a graph of the user’s choice. The options are a top down view of the electric potential, a graph of the electrostatic potential that the user can move around and zoom in on or a top down view graph of the electric field with arrow vectors and equipotential lines. These options are written as switch cases, each one containing a here document to format and plot each graph using gnuplot.
+This script was originally built as a quick and easy way to compile, run and output a graph to test our code throughout the project. From there, it was expanded on and became part of the final product.
+
+%FLOWCHART
+\begin{figure}[H]
+\centering
+\includegraphics[width=75mm]{flowchart.pdf}
+\caption{Flow chart of the C++ program}
+\label{fig:flowchart}
+\end{figure}
