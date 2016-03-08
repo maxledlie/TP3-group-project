@@ -8,7 +8,7 @@ read BMP
 printf "Enter name of text output file: "
 read DATA
 
-printf "Enter name of text output file for vectors"
+printf "Enter name of text output file for vectors: "
 read VECTOR
 
 #compile and run c++ program
