@@ -8,6 +8,9 @@ read BMP
 printf "Enter name of text output file: "
 read DATA
 
+printf "Enter name of text output file for vectors"
+read VECTOR
+
 #compile and run c++ program
 g++ -std=c++11 -o source Source.cpp Board.cpp
 ./source $BMP $DATA
@@ -97,7 +100,7 @@ set dgrid3d $LENGTH, $HEIGHT, 4
 set table 'equipo.txt'
 splot "$DATA" with l
 unset table
-plot "sysvector" with vectors,\
+plot "$VECTOR" with vectors,\
 'equipo.txt' with l
  pause mouse close
 EOF
