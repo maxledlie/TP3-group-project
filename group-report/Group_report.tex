@@ -1,0 +1,347 @@
+\documentclass{article}
+	\usepackage{graphicx}
+	\usepackage{amsmath,amsthm,amssymb}
+	\usepackage{float}
+	\usepackage{listings}
+%	\usepackage{algorithm}
+%	\usepackage{algpseudocode}
+	\usepackage[utf8]{inputenc}
+	\usepackage[english]{babel}
+	\setlength{\parindent}{0em}
+	\setlength{\parskip}{1em}
+	\usepackage{geometry}
+	\geometry{
+	a4paper,
+	total={170mm,257mm},
+	left=20mm,
+	top=20mm,
+	}
+	\usepackage{listings}
+	\usepackage{amsmath}
+	\DeclareMathOperator{\arcsec}{arcsec}
+	
+	\begin{document}
+	\title{Laplace}
+	\author{2081052,2089602,2073835,2072566, 2091324}
+	\date{\today}
+	\maketitle
+	
+	\begin{abstract}
+	\end{abstract}
+	\section{Introduction}
+%	\begin{figure}[hp]
+%	\centering
+%	\includegraphics[width=75mm]{System1.pdf}
+%	\caption{Diagram of system 1}
+%	\label{fig:System1}
+%	\end{figure}
+	\section{Analytical Solution}
+	
+	\section{Theory \label{sec:the}}
+
+\subsection{Solving the Laplace Equation in two dimensions}
+We'll solve Laplace's Equation in polar coordinates for the scalar field $\Phi(r, \theta)$:
+\[ \left( r \Phi_r \right)_r + \frac{1}{r} \left(\Phi_\theta \right)_\theta = 0 \]
+Assuming we can separate variables such that $\Phi(r, \theta) = R(r)\Theta(\theta)$:
+\begin{gather*}
+ \Phi_r = R'\Theta, \Phi_\theta = R\Theta' \Rightarrow \\
+ (rR'\Theta)_r + \frac{1}{r}(R\Theta')_\theta = 0 \Leftrightarrow \\
+ R'\Theta + rR''\Theta + \frac{1}{r}R\Theta'' = 0 \Leftrightarrow \\
+ \frac{rR' + r^2 R''}{R} = \frac{- \Theta''}{\Theta} \Leftrightarrow \\
+ \frac{r(rR')'}{R} = \frac{- \Theta''}{\Theta}
+\end{gather*}
+
+Set both sides equal to $\lambda^2$:
+\[ (A) \hspace{0.5cm} \frac{r(rR')'}{R} = \lambda^2, \hspace{1cm} (B) \hspace{0.5cm} \frac{- \Theta''}{\Theta} = \lambda^2 \]
+Solve the two differential equations separately, assuming at first that $\lambda \neq 0$. For (A), we can guess that the solution takes a familiar form $R(r) = \gamma r^\alpha$:
+\begin{gather*}
+ R' = \gamma \alpha r^{\alpha - 1} \Rightarrow \\
+ \frac{r(r\gamma \alpha r^{\alpha - 1})'}{\gamma r^\alpha} = \lambda^2 \Leftrightarrow \\
+ \alpha^2 \frac{\gamma r r^{\alpha - 1}}{\gamma r^\alpha} = \lambda^2 5\Leftrightarrow \\
+ \alpha^2 = \lambda^2 \Rightarrow \alpha = \pm \lambda 
+\end{gather*}
+For (B), we have $\Theta'' + \lambda^2 \Theta = 0$, so the general form of the solution is:
+\[ \Theta(\theta) = A \cos(\lambda \theta) + B \sin(\lambda \theta) \]
+Since $\Theta(0) = \Theta(2\pi)$ we know that $\lambda \in \mathbb{N}$ (or, more generally,
+that $\lambda \in \mathbb{Z}$ but due to the symmetry in $\cos$ and $\sin$ that information can be encoded into $A$ and $B$).
+When $\lambda = 0$ we can in both cases integrate to find the solutions:
+\[ (A) \hspace{0.5cm} R(r) = c_1 \ln r + c_2,\hspace{1cm} (B)\hspace{0.5cm} \Theta(\theta) = c_3 \theta + c_4 \]
+Since the Laplace Equation is linear, we can add the solutions together to get the general solution set, using the assumption that they are separable:
+\begin{gather}
+ \Phi(r, \theta) = R(r)\Theta(\theta)_{\lambda = 0} + R(r)\Theta(\theta)_{\lambda \in \mathbb{N}} = \nonumber \\
+ (c_1 \ln r + c_2)(c_3 \theta + c_4) + \nonumber \\ 
+\sum_{n \in \mathbb{N}} (\gamma_{1n} r^n + \gamma_{2n} r^{-n})
+\big[A \cos(n \theta) + B \sin(n \theta) \big] \label{generalsol}
+\end{gather}
+
+\subsection{Particular solution for infinite cylinder in $\vec{E}$ field}
+We will add two different solutions together to find the total potential. Let the $\vec{E}$ field be uniform in the x direction
+such that $\vec{E} = E_0 \hat{x}$. Since $\vec{E} = - \nabla \Phi$, $\Phi = -E_0 x = -E_0 r \cos\theta$, which is
+in the general solution set (\ref{generalsol}) we derived above.
+Our first
+boundary condition is then:
+\[ \lim_{r \rightarrow \infty} \Phi(r,\theta)_{total} = -E_0 r \cos\theta \]
+Next we want to find the field from the cylinder. Let the radius of the cylinder be $R$.
+The second boundary condition is that the potential on the surface of the cylinder must be constant,
+say $V_0$, so:
+\[ (C) \hspace{0.5cm} \Phi(R,\theta)_{total} = -E_0 R \cos\theta + \Phi(R,\theta)_{cylinder} = V_0 \]
+$\Phi(r,\theta)_{cylinder}$ must also be in the general solution set defined above. We need a constant so take $c_2 c_4$ from the first
+part of the general solution, but discard the
+$\ln r$ and $\theta$ terms to keep within the first boundary condition.
+From the second part we need to get an expression which lets us fulfill (C), so it is logical to take the $n = 1$ term which has $\cos\theta$:
+
+\begin{gather*}
+ \Phi(R,\theta)_{total} = -E_0 R \cos\theta +  c_2 c_4 + \\
+(\gamma_{11} R + \gamma_{21} R^{-1}) (A\cos\theta + B \sin\theta) = V_0 
+\end{gather*}
+
+Now $B$ must be zero since the sin term would violate the symmetry we require about the x axis, and all that is left is to solve the following equation:
+
+\begin{gather*}
+ \Phi(R,\theta)_{total} = -E_0 R \cos\theta + c_2 c_4 + \\
+(\gamma_{11} R + \gamma_{21} R^{-1}) A\cos\theta = V_0 \Leftrightarrow \\
+ c_2 c_4 - V_0 + R \cos\theta \left( A\gamma_{11} - E_0 + \frac{A\gamma_{21}}{R^2} \right) = 0 
+\end{gather*}
+
+Hence set $c_2 c_4 = V_0$, $\gamma_{11} = 0$, and $A\gamma_{21} = E_0 R^2$ to fulfill (C) and get the final solution:
+\begin{gather}
+ \Phi(r,\theta)_{total} = V_0 + E_0 cos\theta \left( \frac{R^2}{r} - r \right)
+ \label{analyticsol}
+\end{gather}
+	
+	\section{Numerical Solution}
+	
+	\subsection{Methods}
+	It is not always possible to find an analytical solution as in real world
+	
+
+	situations the boundary conditions are not infinite. This means the systems
+	
+
+	need to be solved numerically and this is done using the finite difference
+	
+
+	method.A relaxation method can be used to solve Poisson's equation.
+	
+
+	
+
+
+	
+
+	The simplest method is the Jacobi's Iterative method. However, this method takes more iterations, i.e. more computing time, for the numerical answer to equal
+	
+
+	the analytical solution.
+	
+
+	
+
+
+	
+
+	\begin{equation} U_{n+1,j,k}=\frac{1}{4}\left [ U_{n,j+1,k} + U_{n,j-1,k} + U_{n,j,k+1} +U_{n,j,k-1}\right ]	
+	\end{equation}
+	
+	Another method which is quicker is the Gauss-Seidel method. Unlike the Jacobi method it does not store the previous values and uses the points that have already been 'updated' to caluclate the next value.
+	\begin{equation} 
+	U_{n+1,j,k}=\frac{1}{4}\left [ U_{n,j+1,k} + U_{n+1,j-1,k} + U_{n,j,k+1} +U_{n+1,j,k-1}\right ]
+	\end{equation}
+	The Successive Over Relaxation (SOR) method uses both the new and old solutions in a linear combination.
+	
+	\begin{equation} 
+	U_{n+1,j,k}=\left (1-\omega)\right. U_{n,j,k}+\frac{\omega}{4}\left [ U_{n,j+1,k} + U_{n+1,j-1,k} + U_{n,j,k+1} +U_{n+1,j,k-1}\right ]
+	\end{equation}
+	The $\omega$ is the over-relaxation parameter and this can be changed to optimize the results. For a square lattice the SOR method converges fastest if:
+	\begin{equation}
+	\omega \simeq \frac{2}{1 + \frac{\pi}{d}}
+	\end{equation}
+	where d is the number of grid points in either direction. \cite{numericalmethods}
+	\subsection{Method Comparison}The different numerical methods were compared for System 2. The methods were compared for the following setup on the initial codes. Plates at voltage 10, distance 100, height 100, circle of radius 15 amd acceptable precision 0.001.thod took 1514 iterations. This took a computing time of 0.94s.
+	The Gauss-Seidel method took 962 iterations. This took a computing time of 0.73s.
+	The SOR method took 165 iterations. This took a computing time of 0.28s.
+	It can clearly be seen that the best method is the SOR method.
+	The following graph shows the rate of convergence of all three methods.
+	For the general solver the following setup was used to obtain the following results. Plates at voltage 5 and -5, distance and height 100, radius 10 and acceptable precision 0.001.
+	The Jacobi method took 1113 iterations and 3.08s.
+	The Gauss-Seidel method took 822 iterations and 2.3s.
+	The SOR method took 496 iterations and 1.69s.
+	\section{Structure of generic solver}
+	\section{Conclusion}
+	\section{Appendix}
+	\subsection{Algorithm of SOR method for System 2}
+	
+
+%	\begin{algorithm}
+%	\begin{algorithmic}
+%		\Procedure {The SOR method}{}
+%		
+%	
+%		\State Initialise Variables
+%		
+%	
+%		\State V - Potential on plates
+%		
+%	
+%		\State d - Distance between plates
+%		
+%	
+%		\State h - Height of plates
+%		
+%	
+%		\State r- Radius of inner circle
+%		
+%	
+%		\State error - Acceptable prescision
+%		
+%	
+%		\State errorcount - Count error
+%		
+%	
+%		\State omega =$ 2/(1+ \pi/d)$ - Relaxation parameter
+%		
+%	
+%		\State dx, dy - Grid spacing
+%		
+%	
+%		\State xstep = d/dx;
+%		
+%	
+%		\State ystep = h/dy;
+%		
+%	
+%		\State u[xstep +2][ystep +2] - Multidimensional array for potential
+%		
+%	
+%		\State unew[xstep +2][ystep + 2] - Multidimensional array for updated potential
+%		
+%	
+%		\State Boundary Conditions:
+%		
+%	
+%		\For {int j=0; j$<$xstep; j++}
+%		
+%	
+%		\For {int k=0; k$<$ystep;k++}
+%		
+%	
+%		\If {j==0 $||$ j==xstep}
+%		
+%	
+%		\State u[j][k]=V;
+%		
+%	
+%		\State unew[j][k]=u[j][k];
+%		
+%	
+%		\ElsIf{k==0 $||$ k==ystep}
+%		
+%	
+%		\State u[j][k]=$V-(2*V*j)/xstep$;
+%		
+%	
+%		\State unew[j][k]=u[j][k];
+%		
+%	
+%		\Else
+%		
+%	
+%		\State u[j][k]=0;
+%		
+%	
+%		\State unew[j][k]=u[j][k];
+%		
+%	
+%		\EndIf
+%		
+%	
+%		\EndFor
+%		
+%	
+%		\EndFor
+%		
+%	
+%		\State SOR method:
+%		
+%	
+%		\While {errorcount <xstep -1}
+%		
+%	
+%		\State errorcount =0;
+%		
+%	
+%		\For{int j=1;j$<$xstep;j++}
+%		
+%	
+%		\For {int k=1;k$<$ystep;k++}
+%		
+%	
+%		\If {Inside Ground Circle}
+%		
+%	
+%		\State unew[j][k]=0;
+%		
+%	
+%		\Else
+%		
+%	
+%		\State unew[j][k]=$(1-omega)*u[j][k]+(0.25)*(omega)*(unew[j-1][k]+u[j+1][k] + unew[j][k-1] + u[j][k+1]$;
+%		
+%	
+%		\EndIf
+%		
+%	
+%		\EndFor
+%		
+%	
+%		\EndFor
+%		
+%	
+%		\For {int j=0; j$<$xstep; j++}
+%		
+%	
+%		\If {Convergence$<$error}
+%		
+%	
+%		\State errorcount+=1;
+%		
+%	
+%		\EndIf
+%		
+%	
+%		\EndFor
+%		
+%	
+%		\For {int j=1; j$<$(xstep); j++}
+%		
+%	
+%		\For {int k=1;k$<$(ystep);k++}
+%		
+%	
+%		\State u[j][k]=unew[j][k];
+%		
+%	
+%		\EndFor
+%		
+%	
+%		\EndFor
+%		
+%	
+%		\EndWhile
+%		
+%	
+%		\caption{SOR method Algorithm}
+%		
+%	
+%		\EndProcedure
+%		
+%	
+%		\end{algorithmic}
+%		
+%	
+%	\end{algorithm}
+	\begin{thebibliography}{9}
+	\bibitem{numericalmethods}
+	Richard J. Gonsalves . 2011. \textit{Poisson's Equation and Relaxation Methods.} [ONLINE] Available at: http://www.physics.buffalo.edu/phy410-505/2011/topic3/app1/index.html. [Accessed 11 February 16]
+	\end{thebibliography}
+	\end{document}
